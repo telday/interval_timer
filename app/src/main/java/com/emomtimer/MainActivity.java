@@ -23,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button startButton = findViewById(R.id.startButton);
+        Button stopButton = findViewById(R.id.stopButton);
+
         loopTimer = findViewById(R.id.loopTimer);
         fullTimer = findViewById(R.id.fullTimer);
+
         mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.alarmsound);
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,8 +37,25 @@ public class MainActivity extends AppCompatActivity {
                 runTimer(60, 3600);
             }
         });
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                destroyTimer();
+                resetTimerText();
+            }
+        });
     }
 
+    private void resetTimerText(){
+        fullTimer.setText(getResources().getString(R.string.total_time));
+        loopTimer.setText(getResources().getString(R.string.interval_time));
+    }
+    private void destroyTimer(){
+        if (countDownTimer != null){
+            countDownTimer.cancel();
+        }
+        countDownTimer = null;
+    }
     /**
      * Starts the on screen timer
      *
@@ -42,9 +63,8 @@ public class MainActivity extends AppCompatActivity {
      * @param totalTime The total length of the timer in seconds
      */
     private void runTimer(final int loopLength, int totalTime){
-        if (countDownTimer != null){
-            countDownTimer.cancel();
-        }
+        destroyTimer();
+
         countDownTimer = new CountDownTimer(totalTime * 1000, 1000) {
             private Long secondsPassed = new Long(0);
             @Override

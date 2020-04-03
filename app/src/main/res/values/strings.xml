@@ -3,4 +3,5 @@
     <string name="start">Start</string>
     <string name="interval_time">Interval Time:</string>
     <string name="total_time">Total Time:</string>
+    <string name="stop">Stop</string>
 </resources>
