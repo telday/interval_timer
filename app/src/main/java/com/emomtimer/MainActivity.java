@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 if (secondsPassed % loopLength == 0){
                     playSound();
                 }
-                loopTimer.setText(new Long(secondsPassed % loopLength).toString());
-                fullTimer.setText(secondsPassed.toString());
+                loopTimer.setText(getResources().getString(R.string.interval_time) + new Long(secondsPassed % loopLength).toString());
+                fullTimer.setText(getResources().getString(R.string.total_time) + secondsPassed.toString());
             }
 
             @Override

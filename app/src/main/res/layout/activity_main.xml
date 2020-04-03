@@ -24,13 +24,17 @@
             android:id="@+id/fullTimer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center" />
+            android:text="@string/total_time"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/loopTimer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center" />
+            android:text="@string/interval_time"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/startButton"
