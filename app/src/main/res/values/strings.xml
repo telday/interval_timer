@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">EMOM Timer</string>
     <string name="start">Start</string>
-    <string name="interval_time">Interval Time: </string>
+    <string name="interval_time"></string>
     <string name="total_time">Elapsed Time: </string>
     <string name="stop">Stop</string>
 </resources>

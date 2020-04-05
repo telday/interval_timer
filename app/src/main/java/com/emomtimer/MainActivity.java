@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playSound();
-
                 runTimer(60, 3600);
             }
         });
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 destroyTimer();
-                Toast.makeText(con, new Integer(intervalProgress.getProgress()).toString(), Toast.LENGTH_LONG).show();
                 resetTimerText();
             }
         });
