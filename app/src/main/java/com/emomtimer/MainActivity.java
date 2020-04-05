@@ -72,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
         countDownTimer = null;
         intervalProgress.setProgress(intervalProgress.getMax(), true);
     }
+    private String getIntervalTimerTextFromSeconds(int seconds){
+        int minutes = (seconds - (seconds % 60)) / 60;
+        int hours = (minutes - (minutes % 60)) / 60;
+        int reducedMinutes = minutes - (hours * 60);
+        int reducedSeconds = seconds - (minutes * 60);
+        String hourString = new String();
+        if (hours != 0) {
+            hourString.concat(String.format("%dh ", hours));
+        }
+        String minuteString = new String();
+        if (reducedMinutes != 0 || hours != 0) {
+            minuteString.concat(String.format("%dm ", reducedMinutes));
+        }
+        return String.format("%s%s%ds", hourString, minuteString, reducedSeconds);
+    }
+
     /**
      * Starts the on screen timer
      *
@@ -89,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 if (secondsPassed % loopLength == 0){
                     playSound();
                 }
-                loopTimer.setText(getResources().getString(R.string.interval_time) + new Long(secondsPassed % loopLength).toString());
+                loopTimer.setText(getIntervalTimerTextFromSeconds(new Long(loopLength - (secondsPassed % loopLength)).intValue()));
                 fullTimer.setText(getResources().getString(R.string.total_time) + secondsPassed.toString());
                 double percentFinished = ((float)(secondsPassed % loopLength) / loopLength) * intervalProgress.getMax();
                 intervalProgress.setProgress(intervalProgress.getMax() - (int)percentFinished, true);
