@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.IntervalTimerFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fullTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/total_time"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <TextView
+            android:id="@+id/loopTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interval_time"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/intervalProgress"
+            app:layout_constraintTop_toTopOf="@+id/intervalProgress"
+            tools:layout_editor_absoluteX="-16dp" />
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="145dp"
+            android:layout_height="60dp"
+            android:text="@string/start"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/space"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="145dp"
+            android:layout_height="60dp"
+            android:text="@string/stop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/space" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="27dp"
+            android:layout_height="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/intervalProgress"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+            android:layout_width="372dp"
+            android:layout_height="396dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/timer"
+            android:progressTint="@color/colorPrimaryDark"
+            android:secondaryProgress="0"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

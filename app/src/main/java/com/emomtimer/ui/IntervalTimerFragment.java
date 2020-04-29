@@ -1,6 +1,5 @@
-package com.emomtimer;
+package com.emomtimer.ui;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,13 +11,16 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.emomtimer.MainActivity;
+import com.emomtimer.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link IntervalTimer#newInstance} factory method to
+ * Use the {@link IntervalTimerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IntervalTimer extends Fragment {
+public class IntervalTimerFragment extends Fragment {
     /* Example Params
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -32,7 +34,7 @@ public class IntervalTimer extends Fragment {
     private CountDownTimer countDownTimer = null;
     private ProgressBar intervalProgress;
 
-    public IntervalTimer() { }
+    public IntervalTimerFragment() { }
 
     /**
      * Use this factory method to create a new instance of
@@ -40,8 +42,8 @@ public class IntervalTimer extends Fragment {
      *
      * @return A new instance of fragment IntervalTimer.
      */
-    public static IntervalTimer newInstance(MediaPlayer mediaPlayer) {
-        IntervalTimer fragment = new IntervalTimer();
+    public static IntervalTimerFragment newInstance(MediaPlayer mediaPlayer) {
+        IntervalTimerFragment fragment = new IntervalTimerFragment();
         Bundle args = new Bundle();
         /* Example of using params This would normally take param1 and param2
 
