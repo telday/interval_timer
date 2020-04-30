@@ -1,6 +1,7 @@
 package com.emomtimer.timer;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public class IntervalTimer {
     private long workTimeSeconds;
     private long restTimeSeconds;
     private int numberOfIntervals;
-    private long fullIntervalTimeSeconds;
+    public long fullIntervalTimeSeconds;
     private long totalTimerRuntimeSeconds;
     private CountDownTimer intervalTimer;
     private List<IntervalTimerObserver> observerList;
@@ -34,8 +35,18 @@ public class IntervalTimer {
             o.notify(interval);
         }
     }
+    private void emit(float intervalPercentFinished){
+        for (IntervalTimerObserver o: observerList) {
+            o.notify(intervalPercentFinished);
+        }
+    }
 
-    private void resetTimer(){
+    private void emit(int intervalSecondsRemaining){
+        for (IntervalTimerObserver o: observerList) {
+            o.notify(intervalSecondsRemaining);
+        }
+    }
+    public void resetTimer(){
         if (intervalTimer != null){
             intervalTimer.cancel();
         }
@@ -74,9 +85,23 @@ public class IntervalTimer {
             }
         }
 
+        private long intervalSecondsPassed(long millisUntilFinished){
+            long secondsPassed = totalTimerRuntimeSeconds - millisecondsToSeconds(millisUntilFinished);
+            return secondsPassed;
+        }
+
+        private float calculateIntervalPercentFinished(long millisUntilFinished){
+            long secondsPassed = intervalSecondsPassed(millisUntilFinished);
+            long intervalSecondsPassed = secondsPassed % fullIntervalTimeSeconds;
+            return (float)intervalSecondsPassed / (float)fullIntervalTimeSeconds;
+        }
+
         @Override
         public void onTick(long millisUntilFinished) {
-            emit(TimerInterval.Tick);
+            float intervalPercentFinished = calculateIntervalPercentFinished(millisUntilFinished);
+            emit(intervalPercentFinished);
+            int secondsRemaining = (int)millisecondsToSeconds(millisUntilFinished);
+            emit(secondsRemaining);
             long secondsPassed = totalTimerRuntimeSeconds - millisecondsToSeconds(millisUntilFinished);
             TimerInterval currentInterval = this.calculateCurrentInterval(secondsPassed);
             if (currentInterval != this.lastInterval) {
@@ -93,7 +118,7 @@ public class IntervalTimer {
 
     public void startNewTimer(){
         resetTimer();
-        intervalTimer = new IntervalCountdownTimer(totalTimerRuntimeSeconds, fullIntervalTimeSeconds);
+        intervalTimer = new IntervalCountdownTimer(totalTimerRuntimeSeconds, 1);
         intervalTimer.start();
     }
 }

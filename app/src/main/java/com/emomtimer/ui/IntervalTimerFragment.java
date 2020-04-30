@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,12 @@ import android.widget.TextView;
 
 import com.emomtimer.MainActivity;
 import com.emomtimer.R;
+import com.emomtimer.timer.EMOMTimer;
+import com.emomtimer.timer.IntervalTimer;
+import com.emomtimer.timer.IntervalTimerObserver;
+import com.emomtimer.timer.TimerInterval;
+
+import static com.emomtimer.IntervalTimerApplication.timer;
 
 
 /**
@@ -20,19 +27,12 @@ import com.emomtimer.R;
  * Use the {@link IntervalTimerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IntervalTimerFragment extends Fragment {
-    /* Example Params
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-    */
-
+public class IntervalTimerFragment extends Fragment implements IntervalTimerObserver {
     private TextView loopTimer;
     private TextView fullTimer;
     private CountDownTimer countDownTimer = null;
     private ProgressBar intervalProgress;
+    private IntervalTimer timer;
 
     public IntervalTimerFragment() { }
 
@@ -45,24 +45,12 @@ public class IntervalTimerFragment extends Fragment {
     public static IntervalTimerFragment newInstance(MediaPlayer mediaPlayer) {
         IntervalTimerFragment fragment = new IntervalTimerFragment();
         Bundle args = new Bundle();
-        /* Example of using params This would normally take param1 and param2
-
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-         */
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* Example of using arguments
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        */
     }
 
     @Override
@@ -76,18 +64,20 @@ public class IntervalTimerFragment extends Fragment {
         fullTimer = view.findViewById(R.id.fullTimer);
         intervalProgress = (ProgressBar)view.findViewById(R.id.intervalProgress);
         intervalProgress.setProgress(intervalProgress.getMax(), true);
+        timer = new EMOMTimer(60, 10);
+        timer.register(this);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.playSound();
-                runTimer(60, 3600);
+                timer.startNewTimer();
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                destroyTimer();
+                timer.resetTimer();
                 resetTimerText();
             }
         });
@@ -98,13 +88,7 @@ public class IntervalTimerFragment extends Fragment {
         fullTimer.setText(getResources().getString(R.string.total_time));
         loopTimer.setText(getResources().getString(R.string.interval_time));
     }
-    private void destroyTimer(){
-        if (countDownTimer != null){
-            countDownTimer.cancel();
-        }
-        countDownTimer = null;
-        intervalProgress.setProgress(intervalProgress.getMax(), true);
-    }
+
     private String getIntervalTimerTextFromSeconds(int seconds){
         int minutes = (seconds - (seconds % 60)) / 60;
         int hours = (minutes - (minutes % 60)) / 60;
@@ -121,33 +105,26 @@ public class IntervalTimerFragment extends Fragment {
         return String.format("%s%s%ds", hourString, minuteString, reducedSeconds);
     }
 
-    /**
-     * Starts the on screen timer
-     *
-     * @param loopLength The length of the alarm loop in seconds
-     * @param totalTime The total length of the timer in seconds
-     */
-    private void runTimer(final int loopLength, int totalTime){
-        destroyTimer();
+    @Override
+    public void notify(TimerInterval interval) {
 
-        countDownTimer = new CountDownTimer(totalTime * 1000, 1000) {
-            private Long secondsPassed = new Long(0);
-            @Override
-            public void onTick(long millisUntilFinished) {
-                secondsPassed++;
-                if (secondsPassed % loopLength == 0){
-                    MainActivity.playSound();
-                }
-                loopTimer.setText(getIntervalTimerTextFromSeconds(new Long(loopLength - (secondsPassed % loopLength)).intValue()));
-                fullTimer.setText(getResources().getString(R.string.total_time) + secondsPassed.toString());
-                double percentFinished = ((float)(secondsPassed % loopLength) / loopLength) * intervalProgress.getMax();
-                intervalProgress.setProgress(intervalProgress.getMax() - (int)percentFinished, true);
-            }
-
-            @Override
-            public void onFinish() {
-                System.out.print("test");
-            }
-        }.start();
     }
+
+    @Override
+    public void notify(float intervalPercentRemaining) {
+        intervalProgress.setProgress((int)(intervalPercentRemaining * 100));
+    }
+
+    @Override
+    public void notify(int secondsRemaining) {
+        Log.d("s", Integer.toString(secondsRemaining));
+        Log.d("s", Long.toString(secondsRemaining % this.timer.fullIntervalTimeSeconds));
+        long intervalTimeRemaining = this.timer.fullIntervalTimeSeconds - (secondsRemaining % this.timer.fullIntervalTimeSeconds);
+        String intervalTimerText = getIntervalTimerTextFromSeconds((int)intervalTimeRemaining);
+        String elapsedTimerText = getIntervalTimerTextFromSeconds(secondsRemaining);
+        fullTimer.setText(elapsedTimerText);
+        loopTimer.setText(intervalTimerText);
+    }
+
+
 }
