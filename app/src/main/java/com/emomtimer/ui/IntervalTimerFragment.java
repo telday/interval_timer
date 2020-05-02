@@ -14,12 +14,9 @@ import android.widget.TextView;
 
 import com.emomtimer.MainActivity;
 import com.emomtimer.R;
-import com.emomtimer.timer.EMOMTimer;
 import com.emomtimer.timer.IntervalTimer;
 import com.emomtimer.timer.IntervalTimerObserver;
 import com.emomtimer.timer.TimerInterval;
-
-import static com.emomtimer.IntervalTimerApplication.timer;
 
 
 /**
@@ -64,7 +61,7 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
         fullTimer = view.findViewById(R.id.fullTimer);
         intervalProgress = (ProgressBar)view.findViewById(R.id.intervalProgress);
         intervalProgress.setProgress(intervalProgress.getMax(), true);
-        timer = new EMOMTimer(60, 10);
+        timer = new IntervalTimer(60, 10, 10);
         timer.register(this);
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +104,8 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
 
     @Override
     public void notify(TimerInterval interval) {
-
+        Log.d("Interval Notification", interval.toString());
+        MainActivity.playSound();
     }
 
     @Override
@@ -125,6 +123,4 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
         fullTimer.setText(elapsedTimerText);
         loopTimer.setText(intervalTimerText);
     }
-
-
 }

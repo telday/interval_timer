@@ -12,9 +12,10 @@ public class IntervalTimerPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         if (i == 0){
-
+            return new IntervalTimerFragment();
+        }else {
+            return new SettingsFragment();
         }
-        return new IntervalTimerFragment();
     }
 
     @Override
