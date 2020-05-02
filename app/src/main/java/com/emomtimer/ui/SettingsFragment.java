@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +20,32 @@ public class SettingsFragment extends Fragment {
     EditText workTime;
     EditText restTime;
     EditText intervals;
+    View view;
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
 
     private int getWorkTime(){
         String text = workTime.getText().toString();
+        if (text.equals("")){
+            text = "0";
+        }
         return Integer.valueOf(text);
     }
 
     private int getRestTime(){
         String text = restTime.getText().toString();
+        if (text.equals("")){
+            text = "0";
+        }
         return Integer.valueOf(text);
     }
 
     private int getIntervals(){
         String text = intervals.getText().toString();
+        if (text.equals("")){
+            text = "0";
+        }
         return Integer.valueOf(text);
     }
 
@@ -48,7 +59,10 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable s) {
-            IntervalTimer timer = new IntervalTimer((long)getWorkTime(), (long)getRestTime(), getIntervals());
+            long workTimeSeconds = getWorkTime();
+            long restTimeSeconds = getRestTime();
+            int intervals = getIntervals();
+            IntervalTimer timer = new IntervalTimer(workTimeSeconds, restTimeSeconds, intervals);
             IntervalTimerApplication.timer = timer;
         }
     }
@@ -56,7 +70,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = this.getView();
+        view = inflater.inflate(R.layout.settings_fragment, container, false);
         workTime = view.findViewById(R.id.workTime);
         restTime = view.findViewById(R.id.restTime);
         intervals = view.findViewById(R.id.intervals);
@@ -64,12 +78,11 @@ public class SettingsFragment extends Fragment {
         workTime.addTextChangedListener(new SettingsTextWatcher());
         restTime.addTextChangedListener(new SettingsTextWatcher());
         intervals.addTextChangedListener(new SettingsTextWatcher());
-        return inflater.inflate(R.layout.settings_fragment, container, false);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
 }

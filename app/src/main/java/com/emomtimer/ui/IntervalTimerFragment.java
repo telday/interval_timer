@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.emomtimer.IntervalTimerApplication;
 import com.emomtimer.MainActivity;
 import com.emomtimer.R;
 import com.emomtimer.timer.IntervalTimer;
@@ -50,6 +51,11 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
         super.onCreate(savedInstanceState);
     }
 
+    private void registerMe(){
+        if (this.timer != null){
+            this.timer.register(this);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,12 +67,12 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
         fullTimer = view.findViewById(R.id.fullTimer);
         intervalProgress = (ProgressBar)view.findViewById(R.id.intervalProgress);
         intervalProgress.setProgress(intervalProgress.getMax(), true);
-        timer = new IntervalTimer(60, 10, 10);
-        timer.register(this);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                timer = IntervalTimerApplication.timer;
+                registerMe();
                 MainActivity.playSound();
                 timer.startNewTimer();
             }
