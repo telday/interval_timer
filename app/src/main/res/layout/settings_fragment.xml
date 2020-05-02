@@ -15,30 +15,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Work Time:"
-            app:layout_constraintBottom_toBottomOf="@+id/editText2"
-            app:layout_constraintEnd_toStartOf="@+id/editText2"
-            app:layout_constraintTop_toTopOf="@+id/editText2" />
+            app:layout_constraintBottom_toBottomOf="@+id/workTime"
+            app:layout_constraintEnd_toStartOf="@+id/workTime"
+            app:layout_constraintTop_toTopOf="@+id/workTime" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rest Time"
-            app:layout_constraintBottom_toBottomOf="@+id/editText3"
-            app:layout_constraintEnd_toStartOf="@+id/editText3"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintBottom_toBottomOf="@+id/restTime"
+            app:layout_constraintEnd_toStartOf="@+id/restTime"
+            app:layout_constraintTop_toBottomOf="@+id/workTime" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Intervals:"
-            app:layout_constraintBottom_toBottomOf="@+id/editText4"
-            app:layout_constraintEnd_toStartOf="@+id/editText4"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+            app:layout_constraintBottom_toBottomOf="@+id/intervals"
+            app:layout_constraintEnd_toStartOf="@+id/intervals"
+            app:layout_constraintTop_toBottomOf="@+id/restTime" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/workTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -47,22 +47,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/restTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/workTime" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/intervals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText3" />
+            app:layout_constraintTop_toBottomOf="@+id/restTime" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
