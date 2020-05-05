@@ -116,12 +116,12 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
 
     @Override
     public void notify(float intervalPercentRemaining) {
-        intervalProgress.setProgress((int)(intervalPercentRemaining * 100));
+        intervalProgress.setProgress(100 - (int)(intervalPercentRemaining * 100));
     }
 
     @Override
     public void notify(int secondsRemaining) {
-        long intervalTimeRemaining = this.timer.fullIntervalTimeSeconds - (secondsRemaining % this.timer.fullIntervalTimeSeconds);
+        long intervalTimeRemaining = (secondsRemaining % this.timer.fullIntervalTimeSeconds);
         String intervalTimerText = getIntervalTimerTextFromSeconds((int)intervalTimeRemaining);
         String elapsedTimerText = getIntervalTimerTextFromSeconds(secondsRemaining);
         fullTimer.setText(elapsedTimerText);
