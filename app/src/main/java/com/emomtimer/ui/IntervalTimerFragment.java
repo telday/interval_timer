@@ -4,7 +4,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +76,7 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
                 timer.startNewTimer();
             }
         });
+
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -84,6 +84,7 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
                 resetTimerText();
             }
         });
+
         return view;
     }
 
@@ -110,7 +111,6 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
 
     @Override
     public void notify(TimerInterval interval) {
-        Log.d("Interval Notification", interval.toString());
         MainActivity.playSound();
     }
 
@@ -121,8 +121,6 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
 
     @Override
     public void notify(int secondsRemaining) {
-        Log.d("s", Integer.toString(secondsRemaining));
-        Log.d("s", Long.toString(secondsRemaining % this.timer.fullIntervalTimeSeconds));
         long intervalTimeRemaining = this.timer.fullIntervalTimeSeconds - (secondsRemaining % this.timer.fullIntervalTimeSeconds);
         String intervalTimerText = getIntervalTimerTextFromSeconds((int)intervalTimeRemaining);
         String elapsedTimerText = getIntervalTimerTextFromSeconds(secondsRemaining);
