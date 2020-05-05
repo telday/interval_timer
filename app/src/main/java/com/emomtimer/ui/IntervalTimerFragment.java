@@ -99,11 +99,11 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
         int reducedSeconds = seconds - (minutes * 60);
         String hourString = new String();
         if (hours != 0) {
-            hourString.concat(String.format("%dh ", hours));
+            hourString = hourString.concat(String.format("%dh ", hours));
         }
         String minuteString = new String();
         if (reducedMinutes != 0 || hours != 0) {
-            minuteString.concat(String.format("%dm ", reducedMinutes));
+            minuteString = minuteString.concat(String.format("%dm ", reducedMinutes));
         }
         return String.format("%s%s%ds", hourString, minuteString, reducedSeconds);
     }
