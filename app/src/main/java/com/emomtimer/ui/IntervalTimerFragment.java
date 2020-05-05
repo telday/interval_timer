@@ -27,7 +27,6 @@ import com.emomtimer.timer.TimerInterval;
 public class IntervalTimerFragment extends Fragment implements IntervalTimerObserver {
     private TextView loopTimer;
     private TextView fullTimer;
-    private CountDownTimer countDownTimer = null;
     private ProgressBar intervalProgress;
     private IntervalTimer timer;
 
@@ -41,7 +40,7 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
      */
     public static IntervalTimerFragment newInstance(MediaPlayer mediaPlayer) {
         IntervalTimerFragment fragment = new IntervalTimerFragment();
-        Bundle args = new Bundle();
+        //Bundle args = new Bundle();
         return fragment;
     }
 
@@ -64,7 +63,7 @@ public class IntervalTimerFragment extends Fragment implements IntervalTimerObse
 
         loopTimer = view.findViewById(R.id.loopTimer);
         fullTimer = view.findViewById(R.id.fullTimer);
-        intervalProgress = (ProgressBar)view.findViewById(R.id.intervalProgress);
+        intervalProgress = view.findViewById(R.id.intervalProgress);
         intervalProgress.setProgress(intervalProgress.getMax(), true);
 
         startButton.setOnClickListener(new View.OnClickListener() {
